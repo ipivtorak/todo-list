@@ -1,6 +1,7 @@
 import React from 'react';
 import TodoForm from "./ToDoForm";
 import Todo from "./Todo";
+import {Button, ButtonGroup} from "react-bootstrap";
 
 export default class TodoList extends React.Component {
 
@@ -62,6 +63,7 @@ export default class TodoList extends React.Component {
 
         return (
             <div>
+                <h2>Todo list</h2>
                 <TodoForm onSubmit={this.addTodo}/>
                 {todos.map(todo => (
                     <Todo
@@ -72,29 +74,35 @@ export default class TodoList extends React.Component {
                     />
                 ))}
                 <div>todos left: {this.state.todos.filter(todo => !todo.complete).length} </div>
-                <div>
-                    <button onClick={() => this.updateTodoToShow('all')}>all</button>
-                    <button onClick={() => this.updateTodoToShow('active')}>active</button>
-                    <button onClick={() => this.updateTodoToShow('complete')}>complete</button>
-                </div>
+                <ButtonGroup>
+                    <Button variant={this.state.todosToShow === 'all' ? 'primary' : 'secondary'}
+                            onClick={() => this.updateTodoToShow('all')}>show all</Button>
+                    <Button variant={this.state.todosToShow === 'active' ? 'primary' : 'secondary'}
+                            onClick={() => this.updateTodoToShow('active')}>active</Button>
+                    <Button variant={this.state.todosToShow === 'complete' ? 'primary' : 'secondary'}
+                            onClick={() => this.updateTodoToShow('complete')}>completed</Button>
+                </ButtonGroup>
                 {this.state.todos.some(todo => todo.complete)
                     ? <div>
-                        <button onClick={this.removeAllCompleteTodos}>remove all complete todos</button>
+                        <Button variant="secondary"
+                                onClick={this.removeAllCompleteTodos}>remove all complete todos</Button>
                     </div>
                     : null}
-                {this.state.todos.length ? <div>
-                    <button onClick={() =>
-                        this.setState({
-                            todos: this.state.todos.map(todo => ({
-                                ...todo,
-                                complete: this.state.toggleAllComplete
-                            })),
-                            toggleAllComplete: !this.state.toggleAllComplete
-                        })
-                    }>
-                        {this.state.toggleAllComplete ? 'complete all tasks' : 'open all tasks'}
-                    </button>
-                </div> : null}
+                {this.state.todos.length
+                    ? <div>
+                        <Button variant="secondary" style={{margin:3}} onClick={() =>
+                            this.setState({
+                                todos: this.state.todos.map(todo => ({
+                                    ...todo,
+                                    complete: this.state.toggleAllComplete
+                                })),
+                                toggleAllComplete: !this.state.toggleAllComplete
+                            })
+                        }>
+                            {this.state.toggleAllComplete ? 'complete all tasks' : 'open all tasks'}
+                        </Button>
+                    </div>
+                    : null}
             </div>
         );
     }

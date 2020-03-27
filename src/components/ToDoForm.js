@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button, FormControl, InputGroup} from "react-bootstrap";
 
 export default class TodoForm extends React.Component {
 
@@ -29,12 +30,17 @@ export default class TodoForm extends React.Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                <input name="text"
-                       placeholder="to do..."
-                       onChange={this.handleChange}
-                       value={this.state.text}
-                />
-                <button onClick={this.handleSubmit}>Add</button>
+                <InputGroup className="mb-3">
+                    <FormControl
+                        name="text"
+                        placeholder="to do..."
+                        onChange={this.handleChange}
+                        value={this.state.text}
+                    />
+                    <InputGroup.Append style={{margin: 0}}>
+                        <Button onClick={this.handleSubmit} variant="outline-secondary">Add</Button>
+                    </InputGroup.Append>
+                </InputGroup>
             </form>
         );
     }
